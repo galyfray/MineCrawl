@@ -13,7 +13,7 @@ public class CommandUtils {
     }
 
     public static boolean basicCommandTest(CommandSender sender, String command, String[] args, int minArgsNumber) {
-        return basicCommandTest(sender, command, args, minArgsNumber, 2, true);
+        return basicCommandTest(sender, command, args, minArgsNumber, 1, true);
     }
 
     public static boolean basicCommandTest(CommandSender sender, String command, String[] args, int minArgsNumber, int helpLevel) {

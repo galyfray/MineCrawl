@@ -1,0 +1,10 @@
+name: MineCrawl
+main: fr.co.MineCrawl
+authors: [ Galyfray,SimonLefebvre ]
+version: 0.1
+api-version: 1.18
+commands:
+  balance:
+    description: on taffe dessus tkt
+    usage: /<command> get|set <player> <amount>
+    permission: minecrawl.balance

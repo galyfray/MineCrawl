@@ -1,5 +1,6 @@
 package fr.co;
 
+import fr.co.command.commands.BalanceCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -11,6 +12,7 @@ public class MineCrawl extends JavaPlugin {
     @Override
     public void onEnable() {
         LOGGER = getLogger();
+        BalanceCommand.registerCommand(this, "balance");
         getLogger().info("MineCrawl is now enabled");
     }
 
