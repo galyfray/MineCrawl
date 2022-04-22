@@ -5,11 +5,16 @@ import fr.co.command.commands.KillMapCommand;
 import fr.co.economy.KillMap;
 import fr.co.events.EntityDeathEventHandler;
 import fr.co.economy.Balance;
+import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class MineCrawl extends JavaPlugin {
+
+    public List<Location> coordinate = new ArrayList<>();
 
     public static Logger LOGGER;
 
