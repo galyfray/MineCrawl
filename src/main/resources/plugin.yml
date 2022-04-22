@@ -5,6 +5,12 @@ version: 0.1
 api-version: 1.18
 commands:
   balance:
-    description: on taffe dessus tkt
+    description: Allows you to get/set the balance of a player
     usage: /<command> get|set <player> <amount>
     permission: minecrawl.balance
+
+  killmap:
+    description: allow to set/get the amount earned by a player when killing an entity
+    usage: /<command> get|set <entity> <amount>
+    permission: minecrawl.killmap
+
