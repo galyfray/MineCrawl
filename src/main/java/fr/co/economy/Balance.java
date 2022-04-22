@@ -1,4 +1,4 @@
-package fr.co.points;
+package fr.co.economy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Balance {
 
     private static Balance instance;
-    private static final HashMap<OfflinePlayer, Integer> balances = new HashMap<>();
+    private static final HashMap<OfflinePlayer, Double> balances = new HashMap<>();
 
     private Balance() {
     }
@@ -22,21 +22,21 @@ public class Balance {
         return instance;
     }
 
-    public void credit(OfflinePlayer player, int points) {
-        int balance = getBalance(player);
+    public void credit(OfflinePlayer player, double points) {
+        double balance = getBalance(player);
         setBalance(player, balance + points);
     }
 
-    public void debit(OfflinePlayer player, int points) {
-        int balance = getBalance(player);
+    public void debit(OfflinePlayer player, double points) {
+        double balance = getBalance(player);
         setBalance(player, balance - points);
     }
 
-    public int getBalance(OfflinePlayer player) {
-        return balances.getOrDefault(player, 0);
+    public double getBalance(OfflinePlayer player) {
+        return balances.getOrDefault(player, 0d);
     }
 
-    public void setBalance(OfflinePlayer player, int points) {
+    public void setBalance(OfflinePlayer player, double points) {
         balances.put(player, points);
     }
 
@@ -49,7 +49,7 @@ public class Balance {
     public void load(FileConfiguration config) {
         if (config.contains("balances")) {
             for (String key : config.getConfigurationSection("balances").getKeys(false)) {
-                balances.put(Bukkit.getOfflinePlayer(UUID.fromString(key)), config.getInt("balances." + key));
+                balances.put(Bukkit.getOfflinePlayer(UUID.fromString(key)), config.getDouble("balances." + key));
             }
         }
     }

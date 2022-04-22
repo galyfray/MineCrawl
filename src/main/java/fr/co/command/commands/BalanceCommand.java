@@ -3,12 +3,14 @@ package fr.co.command.commands;
 import fr.co.command.CommandHandler;
 import fr.co.command.CommandUtils;
 import fr.co.command.completion.PlayerNameProvider;
-import fr.co.points.Balance;
+import fr.co.economy.Balance;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 
 import static java.lang.String.format;
 
@@ -30,6 +32,8 @@ public class BalanceCommand {
         main.addSubCommand(get);
         main.addSubCommand(set);
         main.addSubCommand(pay);
+
+        Objects.requireNonNull(plugin.getCommand(name)).setExecutor(main);
     }
 
     private static boolean pay(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
@@ -41,22 +45,28 @@ public class BalanceCommand {
                 return false;
             }
 
-            int amount = Integer.parseInt(args[1]);
+            try {
+                double amount = Double.parseDouble(args[1]);
 
-            if (amount <= 0) {
-                commandSender.sendMessage("Amount must be positive");
+                if (amount <= 0) {
+                    commandSender.sendMessage("Amount must be positive");
+                    return false;
+                }
+
+                if (Balance.getInstance().getBalance((OfflinePlayer) commandSender) < amount) {
+                    commandSender.sendMessage("You don't have enough money");
+                    return false;
+                } else {
+                    Balance.getInstance().debit((OfflinePlayer) commandSender, amount);
+                    Balance.getInstance().credit(player, amount);
+                    return true;
+                }
+
+            } catch (NumberFormatException e) {
+                commandSender.sendMessage(format("Invalid amount %s", args[1]));
                 return false;
             }
 
-            if (Balance.getInstance().getBalance((OfflinePlayer) commandSender) < amount) {
-                commandSender.sendMessage("You don't have enough money");
-                return false;
-            } else {
-                Balance.getInstance().debit((OfflinePlayer) commandSender, amount);
-                Balance.getInstance().credit(player, amount);
-            }
-
-            return true;
         }
         return false;
     }
@@ -70,7 +80,12 @@ public class BalanceCommand {
                 return false;
             }
 
-            Balance.getInstance().setBalance(player, Integer.parseInt(args[1]));
+            try {
+                Balance.getInstance().setBalance(player, Double.parseDouble(args[1]));
+            } catch (NumberFormatException e) {
+                commandSender.sendMessage(format("Invalid amount %s", args[1]));
+                return false;
+            }
             return true;
         }
         return false;

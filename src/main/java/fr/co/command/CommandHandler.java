@@ -62,7 +62,7 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
             return providers[args.length].getPossibilities();
         }
 
-        return null;
+        return possibilities;
     }
 
     @Override

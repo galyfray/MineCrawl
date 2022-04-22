@@ -1,7 +1,9 @@
 package fr.co;
 
 import fr.co.command.commands.BalanceCommand;
-import fr.co.events.EntityDamagedEventHandlers;
+import fr.co.economy.KillMap;
+import fr.co.events.EntityDeathEventHandler;
+import fr.co.economy.Balance;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -20,13 +22,19 @@ public class MineCrawl extends JavaPlugin {
 
         // Events registration
 
-        getServer().getPluginManager().registerEvents(new EntityDamagedEventHandlers(), this);
+        getServer().getPluginManager().registerEvents(new EntityDeathEventHandler(), this);
+
+        // Config loading
+        Balance.getInstance().load(getConfig());
+        KillMap.getInstance().load(getConfig());
 
         getLogger().info("MineCrawl is now enabled");
     }
 
     @Override
     public void onDisable() {
+        Balance.getInstance().save(getConfig());
+        KillMap.getInstance().save(getConfig());
         getLogger().info("MineCrawl is now disabled");
     }
 }
