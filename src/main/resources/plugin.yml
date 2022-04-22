@@ -14,3 +14,8 @@ commands:
     usage: /<command> get|set <entity> <amount>
     permission: minecrawl.killmap
 
+  team:
+    description: Allows you to create/destroy teams and add or remove a player to a team
+    usage: /<command> remove|add player|team <team name> <player>
+    permission: minecrawl.team
+
