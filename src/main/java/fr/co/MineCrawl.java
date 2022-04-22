@@ -37,6 +37,7 @@ public class MineCrawl extends JavaPlugin {
     public void onDisable() {
         Balance.getInstance().save(getConfig());
         KillMap.getInstance().save(getConfig());
+        saveConfig();
         getLogger().info("MineCrawl is now disabled");
     }
 }

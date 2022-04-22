@@ -23,7 +23,7 @@ public class BalanceCommand {
 
         CommandHandler main = new CommandHandler(name, null, null, plugin);
 
-        CommandHandler get = new CommandHandler("get", null, null, plugin, BalanceCommand::get);
+        CommandHandler get = new CommandHandler("get", null, new PlayerNameProvider[]{new PlayerNameProvider()}, plugin, BalanceCommand::get);
 
         CommandHandler set = new CommandHandler("set", null, new PlayerNameProvider[]{new PlayerNameProvider()}, plugin, BalanceCommand::set);
 

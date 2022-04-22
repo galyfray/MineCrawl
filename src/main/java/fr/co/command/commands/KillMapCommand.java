@@ -1,5 +1,6 @@
 package fr.co.command.commands;
 
+import fr.co.MineCrawl;
 import fr.co.command.CommandHandler;
 import fr.co.command.CommandUtils;
 import fr.co.command.CompletionProvider;
@@ -10,6 +11,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -35,7 +37,7 @@ public class KillMapCommand {
         CommandHandler set = new CommandHandler(
                 "set",
                 null,
-                new CompletionProvider[]{() -> Arrays.stream(EntityType.values()).map(EntityType::name).collect(Collectors.toList())},
+                new CompletionProvider[]{() -> Arrays.stream(EntityType.values()).map(Enum::name).toList()},
                 plugin,
                 KillMapCommand::set);
 
@@ -48,16 +50,23 @@ public class KillMapCommand {
     private static boolean set(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
 
         if (CommandUtils.basicCommandTest(commandSender, format("%s set", KillMapCommand.name), args, 2)) {
-            EntityType entityType = EntityType.valueOf(args[0]);
-            if (entityType == EntityType.UNKNOWN) {
-                commandSender.sendMessage(format("%s is not a valid entity type", args[0]));
-            }
             try {
-                KillMap.getInstance().setPayment(entityType, Double.parseDouble(args[1]));
-                return true;
+                EntityType entityType = EntityType.valueOf(args[0]);
+                if (entityType == EntityType.UNKNOWN) {
+                    commandSender.sendMessage(format("%s is not a valid entity type", args[0]));
+                    return false;
+                }
 
-            } catch (NumberFormatException e) {
-                commandSender.sendMessage(format("%s is not a valid number", args[1]));
+                try {
+                    KillMap.getInstance().setPayment(entityType, Double.parseDouble(args[1]));
+                    return true;
+
+                } catch (NumberFormatException e) {
+                    commandSender.sendMessage(format("%s is not a valid number", args[1]));
+                }
+
+            } catch (IllegalArgumentException e) {
+                commandSender.sendMessage(format("%s is not a valid entity type", args[0]));
             }
 
         }
@@ -67,12 +76,16 @@ public class KillMapCommand {
 
     private static boolean get(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
         if (CommandUtils.basicCommandTest(commandSender, format("%s get", KillMapCommand.name), args, 1)) {
-            EntityType entityType = EntityType.valueOf(args[0]);
-            if (entityType == EntityType.UNKNOWN) {
+            try {
+                EntityType entityType = EntityType.valueOf(args[0]);
+                if (entityType == EntityType.UNKNOWN) {
+                    commandSender.sendMessage(format("%s is not a valid entity type", args[0]));
+                    return false;
+                }
+                commandSender.sendMessage(format("Killing %s is worth %s", args[0], KillMap.getInstance().getPayment(entityType)));
+            } catch (IllegalArgumentException e) {
                 commandSender.sendMessage(format("%s is not a valid entity type", args[0]));
-                return false;
             }
-            commandSender.sendMessage(format("Killing %s is worth %s", args[0], KillMap.getInstance().getPayment(entityType)));
         }
 
         return true;

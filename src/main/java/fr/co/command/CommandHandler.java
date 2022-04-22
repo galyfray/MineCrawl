@@ -7,6 +7,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -58,8 +59,8 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
             }
         }
 
-        if (providers != null && args.length < providers.length) {
-            return providers[args.length].getPossibilities();
+        if (providers != null && args.length <= providers.length) {
+            return providers[args.length - 1].getPossibilities();
         }
 
         return possibilities;
