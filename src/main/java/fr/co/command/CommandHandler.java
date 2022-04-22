@@ -60,7 +60,7 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
         }
 
         if (providers != null && args.length <= providers.length) {
-            return providers[args.length - 1].getPossibilities();
+            return providers[args.length - 1].getPossibilities(args[args.length - 1]);
         }
 
         return possibilities;

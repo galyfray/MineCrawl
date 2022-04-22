@@ -11,7 +11,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -30,7 +29,7 @@ public class KillMapCommand {
         CommandHandler get = new CommandHandler(
                 "get",
                 null,
-                new CompletionProvider[]{() -> KillMap.getInstance().getNames()},
+                new CompletionProvider[]{(prefix) -> KillMap.getInstance().getNames()},
                 plugin,
                 KillMapCommand::get
         );
@@ -38,7 +37,12 @@ public class KillMapCommand {
         CommandHandler set = new CommandHandler(
                 "set",
                 null,
-                new CompletionProvider[]{() -> Arrays.stream(EntityType.values()).map(Enum::name).toList()},
+                new CompletionProvider[]{
+                        (prefix) -> Arrays.stream(EntityType.values())
+                                .map(Enum::name)
+                                .filter(entry -> entry.startsWith(prefix))
+                                .collect(Collectors.toList())
+                },
                 plugin,
                 KillMapCommand::set);
 
