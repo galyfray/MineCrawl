@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -41,10 +42,46 @@ public class KillMapCommand {
                 plugin,
                 KillMapCommand::set);
 
+        CommandHandler getAll = new CommandHandler("getall", null, null, plugin, KillMapCommand::getAll);
+
+        main.addSubCommand(getAll);
         main.addSubCommand(get);
         main.addSubCommand(set);
 
         Objects.requireNonNull(plugin.getCommand(name)).setExecutor(main);
+    }
+
+
+    private static boolean getAll(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
+
+        if (CommandUtils.basicCommandTest(commandSender, format("%s getall", KillMapCommand.name), args, 0)) {
+            StringBuilder msg = new StringBuilder();
+
+            @SuppressWarnings("unchecked")
+            Map.Entry<EntityType, Double>[] entries = KillMap.getInstance().getMap().entrySet().toArray(new Map.Entry[0]);
+
+            int page = 0;
+
+            if (args.length > 1) {
+                try {
+                    page = Integer.parseInt(args[0]);
+                } catch (NumberFormatException ignored) {
+
+                }
+            }
+
+            for (int i = page * 10; i < entries.length && i < (page + 1) * 10; i++) {
+                msg.append(format("%s: %.2f\n", entries[i].getKey().name(), entries[i].getValue()));
+            }
+
+            msg.append(format("Page %d/%d", page + 1, (int) Math.ceil(entries.length / 10.0)));
+
+            commandSender.sendMessage(msg.toString());
+
+            return true;
+        }
+
+        return false;
     }
 
     private static boolean set(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
