@@ -24,29 +24,24 @@ public class KillMapCommand {
     public static void registerCommand(JavaPlugin plugin, String name) {
         KillMapCommand.name = name;
 
-        CommandHandler main = new CommandHandler(name, null, null, plugin);
+        CommandHandler main = new CommandHandler(name);
 
         CommandHandler get = new CommandHandler(
                 "get",
-                null,
-                new CompletionProvider[]{(prefix) -> KillMap.getInstance().getNames()},
-                plugin,
-                KillMapCommand::get
+                KillMapCommand::get,
+                (prefix) -> KillMap.getInstance().getNames()
         );
 
         CommandHandler set = new CommandHandler(
                 "set",
-                null,
-                new CompletionProvider[]{
-                        (prefix) -> Arrays.stream(EntityType.values())
-                                .map(Enum::name)
-                                .filter(entry -> entry.startsWith(prefix))
-                                .collect(Collectors.toList())
-                },
-                plugin,
-                KillMapCommand::set);
+                KillMapCommand::set,
+                (prefix) -> Arrays.stream(EntityType.values())
+                        .map(Enum::name)
+                        .filter(entry -> entry.startsWith(prefix))
+                        .collect(Collectors.toList())
+        );
 
-        CommandHandler getAll = new CommandHandler("getall", null, null, plugin, KillMapCommand::getAll);
+        CommandHandler getAll = new CommandHandler("getall", KillMapCommand::getAll);
 
         main.addSubCommand(getAll);
         main.addSubCommand(get);

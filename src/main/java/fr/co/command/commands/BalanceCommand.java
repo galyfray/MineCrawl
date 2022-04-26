@@ -21,13 +21,13 @@ public class BalanceCommand {
     public static void registerCommand(JavaPlugin plugin, String name) {
         BalanceCommand.name = name;
 
-        CommandHandler main = new CommandHandler(name, null, null, plugin);
+        CommandHandler main = new CommandHandler(name);
 
-        CommandHandler get = new CommandHandler("get", null, new PlayerNameProvider[]{new PlayerNameProvider()}, plugin, BalanceCommand::get);
+        CommandHandler get = new CommandHandler("get", BalanceCommand::get, new PlayerNameProvider());
 
-        CommandHandler set = new CommandHandler("set", null, new PlayerNameProvider[]{new PlayerNameProvider()}, plugin, BalanceCommand::set);
+        CommandHandler set = new CommandHandler("set", BalanceCommand::set, new PlayerNameProvider());
 
-        CommandHandler pay = new CommandHandler("pay", null, new PlayerNameProvider[]{new PlayerNameProvider()}, plugin, BalanceCommand::pay);
+        CommandHandler pay = new CommandHandler("pay", BalanceCommand::pay, new PlayerNameProvider());
 
         main.addSubCommand(get);
         main.addSubCommand(set);
