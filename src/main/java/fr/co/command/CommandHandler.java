@@ -103,7 +103,6 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
         if (getSubCommands().size() != 0) {
             if (args.length == 1) {
                 getSubCommands().forEach(subCommand -> possibilities.add(subCommand.getPrefix()));
-                return possibilities;
             }
 
             for (CommandHandler cmd : getSubCommands()) {
@@ -114,7 +113,11 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
         }
 
         if (providers != null && args.length <= providers.length && providers[args.length - 1] != null) {
-            return providers[args.length - 1].getPossibilities(args[args.length - 1]);
+            try {
+                possibilities.addAll(providers[args.length - 1].getPossibilities(args[args.length - 1]));
+            } catch (NullPointerException ignored) {
+
+            }
         }
 
         return possibilities;
