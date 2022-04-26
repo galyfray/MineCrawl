@@ -2,6 +2,7 @@ package fr.co;
 
 import fr.co.command.commands.BalanceCommand;
 import fr.co.command.commands.KillMapCommand;
+import fr.co.command.commands.TeamCommand;
 import fr.co.economy.KillMap;
 import fr.co.events.EntityDeathEventHandler;
 import fr.co.economy.Balance;
@@ -26,6 +27,7 @@ public class MineCrawl extends JavaPlugin {
 
         BalanceCommand.registerCommand(this, "balance");
         KillMapCommand.registerCommand(this, "killmap");
+        TeamCommand.registerCommand(this, "team");
 
         // Events registration
 

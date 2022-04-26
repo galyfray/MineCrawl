@@ -129,9 +129,11 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args, String[] argsTrace) {
-        for (CommandHandler cmd : getSubCommands()) {
-            if (cmd.matches(args[0])) {
-                return cmd.onCommand(sender, command, label, truncateArgs(args), generateArgsTrace(args, argsTrace));
+        if (args.length > 0) {
+            for (CommandHandler cmd : getSubCommands()) {
+                if (cmd.matches(args[0])) {
+                    return cmd.onCommand(sender, command, label, truncateArgs(args), generateArgsTrace(args, argsTrace));
+                }
             }
         }
         if (function != null) {

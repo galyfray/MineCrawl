@@ -95,6 +95,7 @@ public class KillMapCommand {
 
                 try {
                     KillMap.getInstance().setPayment(entityType, Double.parseDouble(args[1]));
+                    commandSender.sendMessage(format("Successfully set %s to %s", entityType.name(), args[1]));
                     return true;
 
                 } catch (NumberFormatException e) {

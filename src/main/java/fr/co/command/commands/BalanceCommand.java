@@ -21,7 +21,7 @@ public class BalanceCommand {
     public static void registerCommand(JavaPlugin plugin, String name) {
         BalanceCommand.name = name;
 
-        CommandHandler main = new CommandHandler(name);
+        CommandHandler main = new CommandHandler(name, BalanceCommand::get);
 
         CommandHandler get = new CommandHandler("get", BalanceCommand::get, new PlayerNameProvider());
 
@@ -59,6 +59,7 @@ public class BalanceCommand {
                 } else {
                     Balance.getInstance().debit((OfflinePlayer) commandSender, amount);
                     Balance.getInstance().credit(player, amount);
+                    commandSender.sendMessage(format("You paid %s to %s", amount, player.getName()));
                     return true;
                 }
 
@@ -86,6 +87,7 @@ public class BalanceCommand {
                 commandSender.sendMessage(format("Invalid amount %s", args[1]));
                 return false;
             }
+            commandSender.sendMessage(format("Successfully set balance of %s to %s", args[0], args[1]));
             return true;
         }
         return false;
