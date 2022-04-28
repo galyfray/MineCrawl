@@ -22,13 +22,13 @@ public class CommandUtils {
      * If the command fails one of the tests, a generic error message is sent to the sender.
      *
      * @param sender        the sender of the command
-     * @param command       the command name
+     * @param handler       the command handler
      * @param args          the arguments of the command
      * @param minArgsNumber the minimum number of arguments
      * @return true if the test are passed, false otherwise
      */
-    public static boolean basicCommandTest(CommandSender sender, String command, String[] args, int minArgsNumber) {
-        return basicCommandTest(sender, command, args, minArgsNumber, 1, true);
+    public static boolean basicCommandTest(CommandSender sender, CommandHandler handler, String[] args, int minArgsNumber) {
+        return basicCommandTest(sender, handler, args, minArgsNumber, 1, true);
     }
 
     /**
@@ -41,14 +41,14 @@ public class CommandUtils {
      * If the command fails one of the tests, a generic error message is sent to the sender.
      *
      * @param sender        the sender of the command
-     * @param command       the command name
+     * @param handler       the command handler
      * @param args          the arguments of the command
      * @param minArgsNumber the minimum number of arguments
      * @param helpLevel     the number of the argument which should equals help to trigger the help command
      * @return true if the test are passed, false otherwise
      */
-    public static boolean basicCommandTest(CommandSender sender, String command, String[] args, int minArgsNumber, int helpLevel) {
-        return basicCommandTest(sender, command, args, minArgsNumber, helpLevel, true);
+    public static boolean basicCommandTest(CommandSender sender, CommandHandler handler, String[] args, int minArgsNumber, int helpLevel) {
+        return basicCommandTest(sender, handler, args, minArgsNumber, helpLevel, true);
     }
 
     /**
@@ -61,14 +61,14 @@ public class CommandUtils {
      * If the command fails one of the tests, a generic error message is sent to the sender.
      *
      * @param sender        the sender of the command
-     * @param command       the command name
+     * @param handler       the command handler
      * @param args          the arguments of the command
      * @param minArgsNumber the minimum number of arguments
      * @param strict        if true, the command will be considered as invalid if the amount of arguments is greater than minArgsNumber
      * @return true if the test are passed, false otherwise
      */
-    public static boolean basicCommandTest(CommandSender sender, String command, String[] args, int minArgsNumber, boolean strict) {
-        return basicCommandTest(sender, command, args, minArgsNumber, 1, strict);
+    public static boolean basicCommandTest(CommandSender sender, CommandHandler handler, String[] args, int minArgsNumber, boolean strict) {
+        return basicCommandTest(sender, handler, args, minArgsNumber, 1, strict);
     }
 
     /**
@@ -81,25 +81,25 @@ public class CommandUtils {
      * If the command fails one of the tests, a generic error message is sent to the sender.
      *
      * @param sender        the sender of the command
-     * @param command       the command name
+     * @param handler       the command handler
      * @param args          the arguments of the command
      * @param minArgsNumber the minimum number of arguments
      * @param helpLevel     the number of the argument which should equals help to trigger the help command
      * @param strict        if true, the command will be considered as invalid if the amount of arguments is greater than minArgsNumber
      * @return true if the test are passed, false otherwise
      */
-    public static boolean basicCommandTest(CommandSender sender, String command, String[] args, int minArgsNumber, int helpLevel, boolean strict) {
+    public static boolean basicCommandTest(CommandSender sender, CommandHandler handler, String[] args, int minArgsNumber, int helpLevel, boolean strict) {
         if (args.length == helpLevel && args[helpLevel - 1].equals("help")) {
-            sender.sendMessage(getHelpMessage(command));
+            sender.sendMessage(getHelpMessage(handler.getFullCommand()));
         }
         if (strict) {
             if (args.length != minArgsNumber) {
-                sender.sendMessage(String.format("Wrong command usage see /%s help for more information", command));
+                sender.sendMessage(String.format("Wrong command usage see /%s help for more information", handler.getFullCommand()));
                 return false;
             }
         } else {
             if (args.length < minArgsNumber) {
-                sender.sendMessage(String.format("Wrong command usage see /%s help for more information", command));
+                sender.sendMessage(String.format("Wrong command usage see /%s help for more information", handler.getFullCommand()));
                 return false;
             }
         }

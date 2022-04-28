@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.ref.WeakReference;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +20,7 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
     private final String prefix;
     private final ArrayList<String> aliases = new ArrayList<>();
     private final ArrayList<CommandHandler> subCommands = new ArrayList<>();
+    private WeakReference<CommandHandler> parent = null;
     private final CompletionProvider[] providers;
     private final CommandFunction function;
 
@@ -175,7 +177,16 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
     }
 
     public void addSubCommand(CommandHandler subCommand) {
+        setParent(this);
         subCommands.add(subCommand);
+    }
+
+    private void setParent(CommandHandler superCommand) {
+        if(parent == null || parent.get() == null) {
+            parent = new WeakReference<>(superCommand);
+        } else {
+            throw new IllegalStateException("CommandHandler already has a parent");
+        }
     }
 
     public CompletionProvider[] getProviders() {
@@ -188,6 +199,10 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
 
     public String getPrefix() {
         return prefix;
+    }
+
+    public String getFullCommand() {
+        return parent != null && parent.get() != null ? parent.get().getFullCommand() + " " + getPrefix(): getPrefix();
     }
 
 }

@@ -37,7 +37,7 @@ public class BalanceCommand {
     }
 
     private static boolean pay(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
-        if (CommandUtils.basicCommandTest(commandSender, format("%s pay", BalanceCommand.name), args, 2)) {
+        if (CommandUtils.basicCommandTest(commandSender, commandHandler, args, 2)) {
             OfflinePlayer player = Bukkit.getServer().getPlayer(args[0]);
 
             if (player == null) {
@@ -73,7 +73,7 @@ public class BalanceCommand {
     }
 
     private static boolean set(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
-        if (CommandUtils.basicCommandTest(commandSender, format("%s set", BalanceCommand.name), args, 2, 1, true)) {
+        if (CommandUtils.basicCommandTest(commandSender, commandHandler, args, 2, 1, true)) {
             OfflinePlayer player = Bukkit.getServer().getPlayer(args[0]);
 
             if (player == null) {
@@ -94,7 +94,7 @@ public class BalanceCommand {
     }
 
     private static boolean get(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
-        if (CommandUtils.basicCommandTest(commandSender, format("%s get", BalanceCommand.name), args, 0)) {
+        if (CommandUtils.basicCommandTest(commandSender, commandHandler, args, 0)) {
             if (args.length == 0) {
                 commandSender.sendMessage("Votre solde est de " + Balance.getInstance().getBalance((OfflinePlayer) commandSender));
             } else if (args.length == 1) {

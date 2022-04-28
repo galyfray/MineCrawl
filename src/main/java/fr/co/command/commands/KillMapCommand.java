@@ -53,7 +53,7 @@ public class KillMapCommand {
 
     private static boolean getAll(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
 
-        if (CommandUtils.basicCommandTest(commandSender, format("%s getall", KillMapCommand.name), args, 0)) {
+        if (CommandUtils.basicCommandTest(commandSender,commandHandler, args, 0)) {
             StringBuilder msg = new StringBuilder();
 
             @SuppressWarnings("unchecked")
@@ -85,7 +85,7 @@ public class KillMapCommand {
 
     private static boolean set(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
 
-        if (CommandUtils.basicCommandTest(commandSender, format("%s set", KillMapCommand.name), args, 2)) {
+        if (CommandUtils.basicCommandTest(commandSender, commandHandler, args, 2)) {
             try {
                 EntityType entityType = EntityType.valueOf(args[0]);
                 if (entityType == EntityType.UNKNOWN) {
@@ -112,7 +112,7 @@ public class KillMapCommand {
     }
 
     private static boolean get(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
-        if (CommandUtils.basicCommandTest(commandSender, format("%s get", KillMapCommand.name), args, 1)) {
+        if (CommandUtils.basicCommandTest(commandSender, commandHandler, args, 1)) {
             try {
                 EntityType entityType = EntityType.valueOf(args[0]);
                 if (entityType == EntityType.UNKNOWN) {

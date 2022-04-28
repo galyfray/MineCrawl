@@ -68,7 +68,7 @@ public class TeamCommand {
     }
 
     private static boolean addTeam(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
-        if (CommandUtils.basicCommandTest(commandSender, format("%s add team", TeamCommand.name), args, 1)) {
+        if (CommandUtils.basicCommandTest(commandSender, commandHandler, args, 1)) {
             if (Teams.getInstance().isTeamExist(args[0])) {
                 commandSender.sendMessage(format("The team %s already exist !", args[0]));
                 return false;
@@ -81,7 +81,7 @@ public class TeamCommand {
     }
 
     private static boolean removeTeam(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
-        if (CommandUtils.basicCommandTest(commandSender, format("%s add team", TeamCommand.name), args, 1)) {
+        if (CommandUtils.basicCommandTest(commandSender,commandHandler, args, 1)) {
             if (!Teams.getInstance().isTeamExist(args[0])) {
                 commandSender.sendMessage(format("the team %s already exist !", args[0]));
                 return false;
@@ -94,7 +94,7 @@ public class TeamCommand {
     }
 
     private static boolean removePlayer(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
-        if (CommandUtils.basicCommandTest(commandSender, format("%s remove player", TeamCommand.name), args, 2)) {
+        if (CommandUtils.basicCommandTest(commandSender, commandHandler, args, 2)) {
             if (!Teams.getInstance().isTeamExist(args[0])) {
                 commandSender.sendMessage(format("the team %s does not exist !", args[0]));
                 return false;
@@ -115,7 +115,7 @@ public class TeamCommand {
     }
 
     private static boolean list(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
-        if (CommandUtils.basicCommandTest(commandSender, format("%s list", TeamCommand.name), args, 0, false)) {
+        if (CommandUtils.basicCommandTest(commandSender, commandHandler, args, 0, false)) {
             if (args.length == 0) {
                 commandSender.sendMessage(Teams.getInstance().getTeamsNames().toString());
             } else {
@@ -130,7 +130,7 @@ public class TeamCommand {
     }
 
     private static boolean addPlayer(CommandSender commandSender, Command command, String label, String[] args, String[] argsTrace, CommandHandler commandHandler) {
-        if (CommandUtils.basicCommandTest(commandSender, format("%s add player", TeamCommand.name), args, 2)) {
+        if (CommandUtils.basicCommandTest(commandSender, commandHandler, args, 2)) {
             if (!Teams.getInstance().isTeamExist(args[0])) {
                 commandSender.sendMessage(format("the team %s does not exist !", args[0]));
                 return false;
