@@ -14,6 +14,11 @@ public class Localizer {
         locale = Locale.getDefault();
     }
 
+    /**
+     * Get the value of a key in the dictionary.
+     * @param key the key to get the value of
+     * @return the value of the key
+     */
     public String getLocalizedText(String key) {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE, locale, this.getClass().getClassLoader());
